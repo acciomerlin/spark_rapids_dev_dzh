@@ -2,7 +2,7 @@
 
 # Base Image: Use a specific, versioned NVIDIA CUDA development image.
 # Ubuntu 22.04 is a modern LTS, and CUDA 12.1.1 is a stable choice for recent RAPIDS versions.
-FROM nvidia/cuda:12.1.1-devel-ubuntu22.04
+FROM nvidia/cuda:12.8.0-devel-ubuntu22.04
 
 # Set non-interactive mode for package installers
 ENV DEBIAN_FRONTEND=noninteractive
