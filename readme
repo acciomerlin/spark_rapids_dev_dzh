@@ -13,3 +13,6 @@ chmod +x ~/spark_rapids_dev/scripts/run_container.sh
 chmod +x ~/spark_rapids_dev/setup_spark_rapids.sh
 ~/spark_rapids_dev/setup_spark_rapids.sh
 
+docker：
+spark 环境已经在 run 里面配置了
+pip uninstall -y pyspark && pip install pyspark==3.5.1

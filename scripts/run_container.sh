@@ -23,7 +23,7 @@ fi
 
 echo "Starting new container: ${CONTAINER_NAME}"
 
-docker run -it --rm \
+docker run -it  \
     --name "${CONTAINER_NAME}" \
     --gpus all \
     --shm-size=4g \

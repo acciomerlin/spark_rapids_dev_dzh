@@ -11,6 +11,7 @@ def main():
         .appName("SparkRapidsDemo") \
         .master("local[*]") \
         .config("spark.plugins", "com.nvidia.spark.SQLPlugin") \
+        .config("spark.jars", "/root/spark_rapids_dev/source/rapids-4-spark_2.12-25.06.0.jar") \
         .config("spark.rapids.sql.enabled", "true") \
         .config("spark.rapids.sql.explain", "ALL") \
         .config("spark.executorEnv.CUDA_VISIBLE_DEVICES", "0") \
@@ -20,8 +21,8 @@ def main():
     # 从 CSV 文件读取销售和产品数据
     # 使用 inferSchema=True 让 Spark 自动推断数据类型
     print("正在读取数据...")
-    sales_df = spark.read.csv("data/sales.csv", header=True, inferSchema=True)
-    products_df = spark.read.csv("data/products.csv", header=True, inferSchema=True)
+    sales_df = spark.read.csv("sales.csv", header=True, inferSchema=True)
+    products_df = spark.read.csv("products.csv", header=True, inferSchema=True)
 
     # --- 3. 转换 (Transformation) ---
     print("开始数据转换...")
@@ -60,7 +61,7 @@ def main():
 
     # --- 5. 数据写入 ---
     # 将结果以 Parquet 格式写入磁盘，覆盖已有文件
-    output_path = "data/output_report.parquet"
+    output_path = "output_report.parquet"
     print(f"正在将结果写入到 {output_path}...")
     final_df.write.mode("overwrite").parquet(output_path)
     print("数据写入完毕。")
