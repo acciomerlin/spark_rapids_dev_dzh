@@ -31,19 +31,11 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # Add conda to the PATH for all users
 ENV PATH /opt/conda/bin:$PATH
 
-# Create a non-root user for development to avoid permission issues with mounted volumes.
-# Use ARG to allow build-time customization if needed.
-ARG USER_ID=1000
-ARG GROUP_ID=1000
-ARG USER_NAME=dev
-RUN groupadd -g $GROUP_ID $USER_NAME && \
-    useradd -u $USER_ID -g $GROUP_ID -m -s /bin/bash $USER_NAME
+# All following commands will run as root.
+# The user will be root by default.
+WORKDIR /workspace
 
-# Switch to the new user
-USER $USER_NAME
-WORKDIR /home/$USER_NAME
-
-# Set up conda for the new user
+# Set up conda for the root user
 RUN conda init bash
 
 # Set a default command to keep the container running if needed,

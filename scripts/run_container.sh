@@ -3,7 +3,16 @@ set -e
 
 IMAGE_NAME="spark-rapids-dev:latest"
 CONTAINER_NAME="rapids_dev_env"
-PROJECT_DIR=~/spark_rapids_dev
+# Define the project directory on the host. This will be mounted to the same path inside the container.
+PROJECT_DIR=$(realpath ~/spark_rapids_dev)
+CONTAINER_PROJECT_DIR="/root/spark_rapids_dev"
+
+# Ensure project directory and subdirectories exist
+mkdir -p "${PROJECT_DIR}/source"
+mkdir -p "${PROJECT_DIR}/data"
+mkdir -p "${PROJECT_DIR}/cache/m2_cache"
+mkdir -p "${PROJECT_DIR}/cache/ccache"
+mkdir -p "${PROJECT_DIR}/cache/conda_cache"
 
 # Check if a container with the same name is already running
 if [ "$(docker ps -q -f name=^/${CONTAINER_NAME}$)" ]; then
@@ -18,10 +27,10 @@ docker run -it --rm \
     --name "${CONTAINER_NAME}" \
     --gpus all \
     --shm-size=4g \
-    -v "${PROJECT_DIR}/source:/home/$(whoami)/source" \
-    -v "${PROJECT_DIR}/cache/m2_cache:/home/$(whoami)/.m2" \
-    -v "${PROJECT_DIR}/cache/ccache:/home/$(whoami)/.ccache" \
-    -v "${PROJECT_DIR}/cache/conda_cache:/home/$(whoami)/.conda/pkgs" \
-    -v "${PROJECT_DIR}/data:/home/$(whoami)/data" \
+    -v "${PROJECT_DIR}:${CONTAINER_PROJECT_DIR}" \
+    -v "${PROJECT_DIR}/cache/m2_cache:/root/.m2" \
+    -v "${PROJECT_DIR}/cache/ccache:/root/.ccache" \
+    -v "${PROJECT_DIR}/cache/conda_cache:/root/.conda/pkgs" \
+    -w "${CONTAINER_PROJECT_DIR}" \
     "${IMAGE_NAME}" \
-    /bin/bash
+    /bin/bash -c "echo 'export SPARK_HOME=${CONTAINER_PROJECT_DIR}/source/spark-3.5.6-bin-hadoop3' >> /root/.bashrc && echo 'export PATH=\$PATH:\$SPARK_HOME/bin:\$SPARK_HOME/sbin' >> /root/.bashrc && exec /bin/bash"
