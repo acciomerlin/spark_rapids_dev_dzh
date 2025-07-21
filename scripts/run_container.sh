@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-IMAGE_NAME="spark-rapids-dev:latest"
+IMAGE_NAME="spark-rapids-dev:1.0.0"
 CONTAINER_NAME="rapids_dev_env"
 # Define the project directory on the host. This will be mounted to the same path inside the container.
 PROJECT_DIR=$(realpath ~/spark_rapids_dev)
@@ -26,6 +26,8 @@ echo "Starting new container: ${CONTAINER_NAME}"
 docker run -it  \
     --name "${CONTAINER_NAME}" \
     --gpus all \
+    -p 8080:8080 \
+    -p 4040:4040 \
     --shm-size=4g \
     -v "${PROJECT_DIR}:${CONTAINER_PROJECT_DIR}" \
     -v "${PROJECT_DIR}/cache/m2_cache:/root/.m2" \

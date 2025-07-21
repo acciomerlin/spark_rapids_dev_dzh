@@ -67,6 +67,7 @@ def main():
     print("数据写入完毕。")
 
     # --- 6. 停止 SparkSession ---
+    input()
     spark.stop()
     print("SparkSession 已停止。")
 

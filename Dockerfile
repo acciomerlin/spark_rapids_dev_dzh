@@ -31,6 +31,9 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -
 # Add conda to the PATH for all users
 ENV PATH /opt/conda/bin:$PATH
 
+# Install PySpark
+RUN pip install pyspark==3.5.6
+
 # All following commands will run as root.
 # The user will be root by default.
 WORKDIR /workspace
