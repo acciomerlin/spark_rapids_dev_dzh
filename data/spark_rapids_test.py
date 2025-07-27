@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum, desc
+import os
 
 def main():
     """
@@ -7,8 +8,9 @@ def main():
     """
     # --- 1. 初始化 SparkSession ---
     # 配置 RAPIDS 插件并指定使用 GPU 0
+    # 注意：请将 .config("spark.jars", "...") 中的路径替换为你的实际路径
     spark = SparkSession.builder \
-        .appName("SparkRapidsDemo") \
+        .appName("SparkRapidsParquetDemo") \
         .master("local[*]") \
         .config("spark.plugins", "com.nvidia.spark.SQLPlugin") \
         .config("spark.jars", "/root/spark_rapids_dev/source/rapids-4-spark_2.12-25.06.0.jar") \
@@ -18,11 +20,11 @@ def main():
         .getOrCreate()
 
     # --- 2. 数据读取 ---
-    # 从 CSV 文件读取销售和产品数据
-    # 使用 inferSchema=True 让 Spark 自动推断数据类型
+    # 从 Parquet 文件读取销售和产品数据
+    # Parquet 是列式存储格式，自带 schema，读取效率远高于 CSV
     print("正在读取数据...")
-    sales_df = spark.read.csv("sales.csv", header=True, inferSchema=True)
-    products_df = spark.read.csv("products.csv", header=True, inferSchema=True)
+    sales_df = spark.read.parquet("data/sales.parquet")
+    products_df = spark.read.parquet("data/products.parquet")
 
     # --- 3. 转换 (Transformation) ---
     print("开始数据转换...")
@@ -67,9 +69,11 @@ def main():
     print("数据写入完毕。")
 
     # --- 6. 停止 SparkSession ---
+    # 使用 input() 可以在 Spark UI 仍在运行时暂停程序，方便观察
+    print("按 Enter 键停止 SparkSession...")
     input()
     spark.stop()
     print("SparkSession 已停止。")
 
 if __name__ == "__main__":
-    main() 
+    main()

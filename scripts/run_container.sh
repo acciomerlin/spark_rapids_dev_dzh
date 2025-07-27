@@ -2,7 +2,7 @@
 set -e
 
 IMAGE_NAME="spark-rapids-dev:1.0.0"
-CONTAINER_NAME="rapids_dev_env"
+CONTAINER_NAME="xy_rapids_dev_env"
 # Define the project directory on the host. This will be mounted to the same path inside the container.
 PROJECT_DIR=$(realpath ~/spark_rapids_dev)
 CONTAINER_PROJECT_DIR="/root/spark_rapids_dev"
