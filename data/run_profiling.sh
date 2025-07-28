@@ -6,7 +6,7 @@
 # --- 配置 ---
 # 请确保将此路径设置为您的项目根目录
 PROJECT_ROOT="/root/spark_rapids_dev" 
-NSYS_REPORTS_DIR="${PROJECT_ROOT}/nsys-reports"
+NSYS_REPORTS_DIR="${PROJECT_ROOT}/data/nsys-reports"
 SPARK_EVENTS_DIR="file://${PROJECT_ROOT}/data/spark-events"
 RAPIDS_JAR="${PROJECT_ROOT}/source/rapids-4-spark_2.12-25.06.0.jar"
 
