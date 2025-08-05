@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-IMAGE_NAME="spark-rapids-dev:1.0.0"
-CONTAINER_NAME="xy_rapids_dev_env"
+IMAGE_NAME="spark-rapids-dev:1.1.0"
+CONTAINER_NAME="dzh_rapids_dev_env"
 # 定义项目目录，并挂载到容器内的相同路径
 PROJECT_DIR=$(realpath ~/spark_rapids_dev)
-CONTAINER_PROJECT_DIR="/root/spark_rapids_dev"
+CONTAINER_PROJECT_DIR="/root/spark_rapids_dev_dzh"
 
 # 确保主机上的项目目录和子目录存在
 mkdir -p "${PROJECT_DIR}/source"
@@ -37,9 +37,9 @@ echo "✨ Creating and starting new container: ${CONTAINER_NAME}"
 docker run -it  \
     --name "${CONTAINER_NAME}" \
     --gpus all \
-    -p 4040:4040 \
-    -p 18081:18081 \
-    -p 18082:18082 \
+    -p 4041:4040 \
+    -p 18083:18081 \
+    -p 18084:18082 \
     --shm-size=4g \
     -v "${PROJECT_DIR}:${CONTAINER_PROJECT_DIR}" \
     -v "${PROJECT_DIR}/cache/m2_cache:/root/.m2" \
