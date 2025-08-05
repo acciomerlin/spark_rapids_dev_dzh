@@ -1,6 +1,0 @@
-
-## 容器创建、运行
-没镜像，需要先执行 build_image.sh 脚本，生成镜像
-然后再执行下面的脚本 run_container.sh
-
-
