@@ -4,7 +4,7 @@ set -e
 IMAGE_NAME="spark-rapids-dev:1.1.0"
 CONTAINER_NAME="dzh_rapids_dev_env"
 # 定义项目目录，并挂载到容器内的相同路径
-PROJECT_DIR=$(realpath ~/spark_rapids_dev)
+PROJECT_DIR=$(realpath ~/spark_rapids_dev_dzh)
 CONTAINER_PROJECT_DIR="/root/spark_rapids_dev_dzh"
 
 # 确保主机上的项目目录和子目录存在
